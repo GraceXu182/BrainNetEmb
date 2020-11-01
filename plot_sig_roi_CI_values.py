@@ -1,5 +1,5 @@
 """
-visualization 
+GCI visualization 
 @2019-11-16
 @ XMJ
 
@@ -7,13 +7,12 @@ visualization
 import matplotlib.pyplot as plt
 
 import numpy as np
-import os
+import os, pdb
 from scipy import stats
-import pdb
 import scipy.io as sio
 import matplotlib.patches as patches
-from g2g.utils2 import *
-from g2g.meg_utils import *
+from mg2g.utils2 import *
+from mg2g.meg_utils import *
 from nilearn import datasets
 from nilearn import  plotting
 from visbrain.objects import (BrainObj, ColorbarObj, SceneObj, SourceObj, ConnectObj)
@@ -30,8 +29,7 @@ def vis_brainNet(i, xyz, s_con, t_con):
     @param i : subject index
     @param xyz: coordinate list of all brain regions in the atlas
     @param total_con: connectivity list of all subjects' brain connectivity matrices
-
-    ## date: 2020-2-11 by Mengjia Xu
+    ## date: 2020-2-11 @ MJX
 
     '''
     sc = SceneObj(bgcolor='black')
@@ -77,7 +75,7 @@ def vis_brainNet(i, xyz, s_con, t_con):
 
 def plot_meg_connectome():
     '''
-    2020-2-11 by mengjia xu
+    2020-2-11 @ MJX
     Plot the MEG brain connectome for the master figure in MEG paper
 
     '''
@@ -103,7 +101,7 @@ def plot_meg_connectome():
 
     # vis_brainNet(0, xyz, normal_con, smci_con)
 #############################################
-# 2019-11-16 by Mengjia Xu
+# 2019-11-16 @ MJX
 # visualization regional variables on 3D plot
 # (p value, node degree)
 #############################################
@@ -305,7 +303,7 @@ def main():
     # data = sio.loadmat('output/meg_atlas_info_SP_20200110_v2.mat')
     # data = sio.loadmat('output/meg_atlas_info_NS_v2.mat')
 
-    # add on 10/26/2020 for TBME revision
+    # add on 10/26/2020 @ MJX for TBME revision
     data = sio.loadmat('output/meg_atlas_info_NP_v2.mat')
 
 
@@ -377,12 +375,6 @@ def main():
     # node_EC = sio.loadmat('output/3c_mean_%s.mat'%feat_name[1])
     # node_BC = sio.loadmat('output/3c_mean_%s.mat'%feat_name[2])
     # pdb.set_trace()
-
-    
-
-
-
-
 
 ############################################
 # " *** Display Brain regions *** "
