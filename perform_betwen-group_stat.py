@@ -1,34 +1,33 @@
 '''
-Code for statistical analysis for MEG Gaussian embedding results
-## 2019-10-30 by MJX ##
-
+Code for statistical analysis for between-group MEG Gaussian embedding results
+(i.e., NC/sMCI and NC/pMCI--new add on 10/26/2020)
+@ MJX
 '''
 import random
 import scipy.io as sio
 import numpy as np
 import time
 
-def W2_distance_2(mu0, mu3, sig0, sig3):
+def W2_distance_2(mu0, mu3, sig0, sig3, L = 8):
     '''
+    Compute W2 distance for two ROIs' gaussian embeddings
     Input:
-        mu0,mu3 —— signle ROI's embedding array of L, (L is embedding size)
-        sig0,sig3 —— variance array-like of N*L (~)
+        L  —— embedding size
+        mu0,mu3 —— embedding mean array for each ROI with embedding size L, (L is embedding size)
+        sig0,sig3 —— embedding variance array-like of N*L (~)
     Output:
         w2_distance —— 2nd wasserstein distance
 
     '''
-    L = 8  # m: number of nodes, n: embedding size
     cov0 = np.eye(L)*sig0
     cov3 = np.eye(L)*sig3
     mean_L2_norm = np.linalg.norm(np.subtract(mu3,mu0),2)
     sigma_F_norm = np.linalg.norm(np.sqrt(cov0)+np.sqrt(cov3))
-    distance = np.square(mean_L2_norm)+np.square(sigma_F_norm)
-    distance = np.sqrt(distance)  
+    distance = np.sqrt(np.square(mean_L2_norm)+np.square(sigma_F_norm))
     return distance
 
 def get_inter_W2(con,sig,con3,sig3,roi):
-
-    'between-pair W2 distance calculation'
+    # 'between-pair W2 distance computation'
 
     inter_W2 =np.zeros([len(con),len(con3)])
     for i in range(0,len(con)):
@@ -46,8 +45,11 @@ def get_triangle(w2,c1,c2):
     SS = l_t[-c2:,-c2:]
     return NN,SS,SN
 
-def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=500):
-    DD= np.zeros([t-s,n_perm])  # d value 2D array: n_roi* n_perm
+def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=1000):
+    # compute GCI value for ROIs in the index range [s,t], which is designed for efficient MPI running
+    # to improve the computational efficiency
+    
+    GCI = np.zeros([t-s,n_perm])  # d value 2D array: n_roi* n_perm
     sub_index = list(np.arange(c1 + c2))
     for roi in range(s,t): 
         print('\n--<ROI %d>--'%roi)
@@ -85,7 +87,7 @@ def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=500):
             # compute averaged d value for each ROI in each permutation;
             d = np.mean(SN)-(np.mean(NN)/2+np.mean(SS)/2)
             rd_append(round(d,3))
-        np.save('output/dvalues_NP_pmt500/total_dis_roi%d.npy'%roi,roi_dist)
+        np.save('output/dvalues_NP_pmt1000/total_dis_roi%d.npy'%roi,roi_dist)
         t3 = time.time()
         print('------cost time : %.3f'%(t3-t1))
         
@@ -93,7 +95,7 @@ def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=500):
     return DD
 
 ###############################################################
-# load embedding results for control, smci and pmci subjects
+# load embedding results for control, smci and pmci groups
 ###############################################################
 emb3C = sio.loadmat('output/total_emb_3c.mat')
 
@@ -116,7 +118,7 @@ pmci_sig = list(emb3C['sig'])[-c3:]
 ###############################################################
 mu_var = nc_mu + smci_mu
 sig_var = nc_sig + smci_sig
-run_stat_MEG(mu_var,sig_var,c1,c2,0,1,n_perm=500)
+run_stat_MEG(mu_var,sig_var,c1,c2,0,1,n_perm=1000)
 
 ###############################################################
 # Compute permutated W2 between class 'smci' and class 'pmci'
