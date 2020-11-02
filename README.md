@@ -29,10 +29,8 @@ Format: ![Supervised learning for AD progression prediction](https://github.com/
 
 ### Brain regions with significant AD-related effects
 ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMCI cases](Fig4.png=100x40)
-Format: ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMCI comparisons](https://github.com/GraceXu182/BrainNetEmb/Fig4.png)
-
 ![Brain regions with AD-related effects for NC vs. pMCI comparison](Suppl.Fig1.png=50x50)
-Format: ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMCI casesn](https://github.com/GraceXu182/BrainNetEmb/Suppl.Fig1.png)
+
 
 # Reference
 @article{xu2020graph,
