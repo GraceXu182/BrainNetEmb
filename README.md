@@ -1,9 +1,9 @@
 # MEG_AD_project (AD progression prediction based on MEG brain networks)
 ## 
-Characterizing the subtle changes of functional
+Characterizing the _subtle changes_ of functional
 brain networks associated with the pathological cascade of
-Alzheimer’s disease (AD) is important for early diagnosis and
-prediction of disease progression prior to clinical symptoms. We
+Alzheimer’s disease (AD) is important for _early diagnosis and
+prediction of disease progression prior to clinical symptoms_. We
 developed a new deep learning method, termed multiple graph
 Gaussian embedding model, which can learn highly
 informative network features by mapping high-dimensional
@@ -23,7 +23,7 @@ with network alterations related to MCI.
 
 # Reference
 @article{xu2020graph,
-  title={A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networks},
+  title={**A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networks**},
   author={Xu, Mengjia and Sanz, David Lopez and Garces, Pilar and Maestu, Fernando and Li, Quanzheng and Pantazis, Dimitrios},
   journal={arXiv preprint arXiv:2005.05784},
   year={2020}
