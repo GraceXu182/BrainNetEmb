@@ -91,8 +91,8 @@ def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=1000):
         t3 = time.time()
         print('------cost time : %.3f'%(t3-t1))
         
-        DD[roi,:]=roi_dist
-    return DD
+        GCI[roi,:]=roi_dist
+    return GCI
 
 ###############################################################
 # load embedding results for control, smci and pmci groups
@@ -118,11 +118,11 @@ pmci_sig = list(emb3C['sig'])[-c3:]
 ###############################################################
 mu_var = nc_mu + smci_mu
 sig_var = nc_sig + smci_sig
-run_stat_MEG(mu_var,sig_var,c1,c2,0,1,n_perm=1000)
+ns_gci = run_stat_MEG(mu_var,sig_var,c1,c2,0,1,n_perm=1000)
 
 ###############################################################
 # Compute permutated W2 between class 'smci' and class 'pmci'
 ###############################################################
 mu_var2 = smci_mu + pmci_mu
 sig_var2 = smci_sig + pmci_sig
-run_stat_MEG(mu_var2,sig_var2,c2,c3,1,2,n_perm = 1000)
+np_gci = run_stat_MEG(mu_var2,sig_var2,c2,c3,1,2,n_perm = 1000)
