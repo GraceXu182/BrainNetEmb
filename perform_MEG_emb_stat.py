@@ -1,5 +1,5 @@
 '''
-Code for statistical analysis for between-group MEG Gaussian embedding results
+Code for statistical analysis for MEG Gaussian embedding results
 (i.e., NC/sMCI and NC/pMCI--new add on 10/26/2020)
 @ MJX
 '''
