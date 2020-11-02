@@ -36,7 +36,7 @@ Format: ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMC
 
 # Reference
 @article{xu2020graph,
-  title={A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networks[paper link](https://arxiv.org/abs/2005.05784)},
+  title={[A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networkspaper](https://arxiv.org/abs/2005.05784)},
   author={Xu, Mengjia and Sanz, David Lopez and Garces, Pilar and Maestu, Fernando and Li, Quanzheng and Pantazis, Dimitrios},
   journal={arXiv preprint arXiv:2005.05784},
   year={2020}
