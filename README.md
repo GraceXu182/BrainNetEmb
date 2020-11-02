@@ -24,7 +24,7 @@ Format: ![main workflow](https://github.com/GraceXu182/BrainNetEmb/Fig1.png)
 
 ## Experimental results
 ### AD progression prediction based on graph embedding features
-![Supervised learning for AD progression prediction](Fig3.png=100x40)
+![Supervised learning for AD progression prediction](Fig3.png)
 Format: ![Supervised learning for AD progression prediction](https://github.com/GraceXu182/BrainNetEmb/Fig3.png)
 
 ### Brain regions with significant AD-related effects
@@ -32,13 +32,7 @@ Format: ![Supervised learning for AD progression prediction](https://github.com/
 Format: ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMCI comparisons](https://github.com/GraceXu182/BrainNetEmb/Fig4.png)
 ![Brain regions with AD-related effects for NC vs. pMCI comparison](Suppl.Fig1.png)
 Format: ![Brain regions with AD-related effects for NC vs. sMCI and sMCI vs. pMCI casesn](https://github.com/GraceXu182/BrainNetEmb/Suppl.Fig1.png)   
-    
-    
-    
-    
-    
-    
-    
+      
 
 # Reference
 @article{xu2020graph,
