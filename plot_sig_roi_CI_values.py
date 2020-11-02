@@ -5,7 +5,6 @@ GCI visualization
 
 """
 import matplotlib.pyplot as plt
-
 import numpy as np
 import os, pdb
 from scipy import stats
@@ -19,63 +18,10 @@ from visbrain.objects import (BrainObj, ColorbarObj, SceneObj, SourceObj, Connec
 from visbrain.io import download_file
 
 ############################################
-# *** Display brain network pairwisely *** 
+# plot MEG brain networks 
 ############################################
-
-def vis_brainNet(i, xyz, s_con, t_con):
-    '''
-    Visualization of meg brain network in 3D space
-
-    @param i : subject index
-    @param xyz: coordinate list of all brain regions in the atlas
-    @param total_con: connectivity list of all subjects' brain connectivity matrices
-    ## date: 2020-2-11 @ MJX
-
-    '''
-    sc = SceneObj(bgcolor='black')
-    n_sources = xyz.shape[0]
-    data = np.random.rand(n_sources)
-
-    cnn_1 = np.triu(s_con[i])
-    cnn_2 = np.triu(t_con[i])
-    cnn_select_1 = (-.010 < cnn_1) & (cnn_1 < .010)
-    cnn_select_2 = (-.010 < cnn_2) & (cnn_2 < .010)
-
-
-    "normal control"
-    
-    tt = 'Subject %d (Month 0)'%i
-    b_obj_1 = BrainObj('white')
-    b_obj_1.animate(iterations=10, step=30, interval=1)
-    s_obj_1 = SourceObj('s1', xyz, color = 'red', data=data, symbol='disc', radius_max=20)
-    c_obj_1 = ConnectObj('c1', xyz, cnn_1, select=cnn_select_1, dynamic=(0., 1.),
-                         dynamic_orientation='center', dynamic_order=3, cmap='bwr',
-                         antialias=True)
-    sc.add_to_subplot(b_obj_1, rotate = 'front', title= tt)   
-    sc.add_to_subplot(s_obj_1) 
-    # sc.add_to_subplot(c_obj_1)  
-
-    "stable mci"
-    
-    tt = 'Subject %d (Month 3)'%i
-
-    b_obj_2 = BrainObj('white')
-    b_obj_2.animate(iterations=10, step=30, interval=1)
-    s_obj_2 = SourceObj('s2', xyz, color = 'red', data=data, symbol='disc', radius_max=20)
-    c_obj_2 = ConnectObj('c2', xyz, cnn_2, select=cnn_select_2, dynamic=(0., 1.),
-                         dynamic_orientation='center', dynamic_order=3, cmap='bwr',
-                         antialias=True)
-
-    sc.add_to_subplot(b_obj_2, col = 1,use_this_cam = True,title= tt)
-    sc.add_to_subplot(s_obj_2, col = 1)
-    sc.add_to_subplot(c_obj_2, col = 1)
-    # sc.record_animation('animate_example_sub%d.gif'%i, n_pic=10)
-
-    sc.preview()
-
 def plot_meg_connectome():
     '''
-    2020-2-11 @ MJX
     Plot the MEG brain connectome for the master figure in MEG paper
 
     '''
@@ -100,15 +46,16 @@ def plot_meg_connectome():
     sc.preview()
 
     # vis_brainNet(0, xyz, normal_con, smci_con)
+
 #############################################
-# 2019-11-16 @ MJX
-# visualization regional variables on 3D plot
-# (p value, node degree)
+# Plot ROI-variable on 3D brain atlas
+# (p value, node degree or GCI value)
 #############################################
 
 def get_log_pval(padj, basis=None):
     '''
-    compute the corresponding log values of padj values
+    compute the corresponding log values of padj values 
+    (optional)
 
     '''
     if basis == None:
@@ -122,13 +69,19 @@ def get_log_pval(padj, basis=None):
     return log_p, max_p, min_p
 
 def vis_sources_by_pval(padj,all_coord,short_label):
-    ''' plot the source objects along with the brain object'''
+    ''' 
+    1. visualize the sources (brain regions) based on the FDR-adjusted p values
+    display both the source objects and the brain object
+    
+    '''
+    
     # Define the default camera state used for each subplot
     CAM_STATE = dict(azimuth=0,        # azimuth angle
                      elevation=90,     # elevation angle
                      scale_factor=180  # distance to the camera
                      )
     S_KW = dict(camera_state=CAM_STATE)
+    
     # Create the scene
     CBAR_STATE = dict(cbtxtsz=12, txtsz=13., width=.5, cbtxtsh=2.,
                       rect=(1., -2., 1., 4.))
@@ -163,11 +116,12 @@ def vis_sources_by_pval(padj,all_coord,short_label):
     sc.add_to_subplot(s_obj,row=0, col=0)
     sc.add_to_subplot(cb_data,row=0, col=1, width_max=90)
     
-    # sc.record_animation('output/animate_pvalue_projection.gif', n_pic=10)
+    # recording animation and save it
+    sc.record_animation('output/animate_pvalue_projection.gif', n_pic=10)
     sc.preview()
-
 def vis_brainSurface_by_padj(padj_parcellates, gci_parcellates, tt, ptype='significant',cmap='jet',use_log = False, use_1_p=False, use_p=True):
-
+        # '''visualize the brain surface based on the FDR-adjusted GCI values or FDR-adjusted p values'''
+        
         # Define the default camera state used for each subplot
         CAM_STATE = dict(azimuth=0,        # azimuth angle
                          elevation=90,     # elevation angle
@@ -202,14 +156,12 @@ def vis_brainSurface_by_padj(padj_parcellates, gci_parcellates, tt, ptype='signi
         select_roi1 = select_rois(lh_df)
         select_roi2 = select_rois(rh_df)
 
-        #  get log FDR-adjusted p values
+        #  get log FDR-adjusted p values (optional)
         # log_p_parce, l_p, s_p = get_log_pval(padj_parcellates, basis=2)
 
         l_p = np.max(gci_parcellates)
         s_p = np.min(gci_parcellates)
-        print('-----#####',l_p,s_p)
-
-
+#         print('-----#####',l_p,s_p)
 
         if ptype == 'significant' or ptype == 'unsignificant' :
 
@@ -302,21 +254,17 @@ def main():
 
     # data = sio.loadmat('output/meg_atlas_info_SP_20200110_v2.mat')
     # data = sio.loadmat('output/meg_atlas_info_NS_v2.mat')
-
-    # add on 10/26/2020 @ MJX for TBME revision
     data = sio.loadmat('output/meg_atlas_info_NP_v2.mat')
 
 
     # all 68 brain regions' information (coord, full name, short name)
-    # full_label = data['full_label']
     full_label = load_MEG_info(os.path.abspath('MEG_data_info/ROI_label_2.xlsx'))
     short_label = data['short_label']
     all_coord = data['coord']
     padj = data['padj_u'][0]
     padj_parcellates = data['padj_parcellates'][0]
     gci_parcellates = data['gci_parcellates'][0] #  GCI value---4/23/2020
-
-
+    
     meg_lobe = data['lobe']
 
     h_label,_,_,_,_ = get_visbrain_label_color_index(full_label)
@@ -377,11 +325,13 @@ def main():
     # pdb.set_trace()
 
 ############################################
-# " *** Display Brain regions *** "
+# " *** visualization of brain regions with 
+#  significant AD-related changes and plot 
+#  MEG brain connectome *** "
 ############################################
 if __name__ == '__main__':
     main()
-    # plot_meg_connectome()
+    plot_meg_connectome()
 
 
 
