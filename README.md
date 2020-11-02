@@ -1,5 +1,5 @@
 # MEG_AD_project (AD progression prediction based on MEG brain networks)
-## Overview
+## 
 Characterizing the subtle changes of functional
 brain networks associated with the pathological cascade of
 Alzheimer’s disease (AD) is important for early diagnosis and
@@ -21,7 +21,7 @@ with network alterations related to MCI.
 
 ## 
 
-# Paper
+# Reference
 @article{xu2020graph,
   title={A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networks},
   author={Xu, Mengjia and Sanz, David Lopez and Garces, Pilar and Maestu, Fernando and Li, Quanzheng and Pantazis, Dimitrios},
