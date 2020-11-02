@@ -94,35 +94,92 @@ def run_stat_MEG(mu_var,sig_var,c1,c2,s,t,n_perm=1000):
         GCI[roi,:]=roi_dist
     return GCI
 
+def compute_pval(all_dvalue, sort= True):
+    '''
+    Input: 
+        all_dvalue: a list of length 68 used to store computed dvalue vectors for 68 ROIs,
+                    each dvalue vector is of size (500,)
+    Output:
+        PV_unsorted: an unsorted list of length 68 to store different p values for all ROIs.
+        PV_sorted: a sorted list of length 68 to store different p values for all ROIs.       
+    '''
+    PV=[]
+    perm = all_dvalue[0].shape[0]  # Number of permutations
+    for dval in all_dvalue:
+        roi_dis=np.array(dval)
+        greater_count = np.where(roi_dis>roi_dis[0])[0].shape[0]+np.where(roi_dis==roi_dis[0])[0].shape[0]
+        pval = greater_count/perm
+        PV.append(pval)
+    PV_unsorted=np.array(PV)
+    
+#     if save_pval:
+#         sio.savemat('output/dvalues_%s_pmt500/Pvals_unsorted_%s.mat'%(type1,type1),mdict={'pvals':PV_unsorted})
+    if sort:
+        PV_sorted = np.sort(PV_unsorted)
+#     plot_pval(PV_sorted,PV_unsorted,type1)
+    return PV_unsorted,PV_sorted
+
 ###############################################################
 # load embedding results for control, smci and pmci groups
 ###############################################################
 emb3C = sio.loadmat('output/total_emb_3c.mat')
 
-c1 = 53 # normal quantity
-c2 = 48 # smci quantity
-c3 = 28 # pmci quantity
+c1 = 53 # normal group
+c2 = 48 # smci group
+c3 = 28 # pmci group
 
-# mean vectors
+# mean array of size N*L (N is the number of subjects in each group; L is the embdding size)
 nc_mu = list(emb3C['mu'])[:c1]
 smci_mu = list(emb3C['mu'])[c1:-c3]
 pmci_mu = list(emb3C['mu'])[-c3:]
 
-# variance vectors
+# variance array of size N*L (N is the number of subjects in each group; L is the embdding size)
 nc_sig = list(emb3C['sig'])[:c1]
 smci_sig = list(emb3C['sig'])[c1:-c3]
 pmci_sig = list(emb3C['sig'])[-c3:]
 
 ###############################################################
-# Compute permutated W2 between class 'normal' and class 'smci'
+# 1. compute GCI value for each ROI 
+# (see the GCI definition from our paper)
+###############################################################
+# Compute permutated W2 and GCI values for each ROI
+# between 'normal' and 'smci' groups
 ###############################################################
 mu_var = nc_mu + smci_mu
 sig_var = nc_sig + smci_sig
-ns_gci = run_stat_MEG(mu_var,sig_var,c1,c2,0,1,n_perm=1000)
+ns_gci = run_stat_MEG(mu_var,sig_var,c1,c2,0,1, n_perm=1000)
 
 ###############################################################
-# Compute permutated W2 between class 'smci' and class 'pmci'
+# Compute permutated W2 and GCI values for each ROI
+# between 'smci' and 'pmci' groups
 ###############################################################
 mu_var2 = smci_mu + pmci_mu
 sig_var2 = smci_sig + pmci_sig
-np_gci = run_stat_MEG(mu_var2,sig_var2,c2,c3,1,2,n_perm = 1000)
+sp_gci = run_stat_MEG(mu_var2, sig_var2, c2, c3, 1, 2, n_perm = 1000)
+
+###############################################################
+# Compute permutated W2 between class 'nc' and class 'pmci'
+###############################################################
+mu_var3 = nc_mu + pmci_mu
+sig_var3 = nc_sig + pmci_sig
+np_gci = un_stat_MEG(mu_var3, sig_var3, c1, c3, 1, 20, n_perm = 1000)
+
+
+###############################################################
+# 2. compute test p value of the obtaind GCI values
+###############################################################
+# compute test p values between 'normal' and 'sMCI' groups
+###############################################################
+type1 = 'NS'
+[p_u,p_s] = compute_pval(ns_gci, sort=True)
+# sio.savemat('output/GCI_%s_pmt1000/Pvals_unsorted_%s_2.mat'%(type1,type1),mdict={'pvals':p_u})
+
+###############################################################
+# compute testp values between  'smci' and 'pmci' groups
+###############################################################
+type1 = 'SP'
+[p_u2,p_s2] = compute_pval(np_gci, sort=True)
+# sio.savemat('output/GCI_%s_pmt1000/Pvals_unsorted_%s_1026_norm0.3.mat'%(type1,type1),mdict={'pvals':norm_pu2})
+
+
+
