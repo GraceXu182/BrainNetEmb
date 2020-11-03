@@ -35,7 +35,7 @@ Format: ![Brain regions with AD-related effects for NC vs. pMCI case](https://gi
       
 
 # Reference
-If you find this work useful and want to cite/mention this page, here is a bibtex citation:
+If you use this repository, please cite our paper in the below.
 
 >@article{xu2020graph,
   title={[A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networkspaper](https://arxiv.org/abs/2005.05784)},
