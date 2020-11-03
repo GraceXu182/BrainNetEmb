@@ -14,7 +14,7 @@ patterns at different regions, and can be used as input to
 traditional classifiers for various downstream graph analytic
 tasks, such as AD early stage prediction, and statistical evaluation
 of between-group significant alterations across brain regions. We
-used MG2G to detect the intrinsic latent dimensionality of MEG
+used our proposed method to detect the intrinsic latent dimensionality of MEG
 brain networks, predict the progression of patients with mild
 cognitive impairment (MCI) to AD, and identify brain regions
 with network alterations related to MCI.
