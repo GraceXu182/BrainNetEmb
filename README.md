@@ -1,5 +1,4 @@
 # MEG_AD_project (AD progression prediction based on MEG brain networks)
-## Summary
 Characterizing the subtle changes of functional
 brain networks associated with the pathological cascade of
 Alzheimer’s disease (AD) is important for early diagnosis and
