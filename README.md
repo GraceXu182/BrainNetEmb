@@ -35,10 +35,13 @@ Format: ![Brain regions with AD-related effects for NC vs. pMCI case](https://gi
 
 # Reference
 If you use this repository, please cite our paper in the below.
-
->@article{xu2020graph,
-  title={[A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression with MEG Brain Networkspaper]},
+@article{xu2021graph,
+  title={[A Graph Gaussian Embedding Method for Predicting Alzheimer's Disease Progression With MEG Brain Networks]},
   author={Xu, Mengjia and Sanz, David Lopez and Garces, Pilar and Maestu, Fernando and Li, Quanzheng and Pantazis, Dimitrios},
-  journal={arXiv preprint arXiv:2005.05784},
-  year={2020}
+  journal={IEEE Transactions on Biomedical Engineering},
+  volume={68},
+  number={5},
+  pages={1579--1588},
+  year={2021},
+  publisher={IEEE}
 }
